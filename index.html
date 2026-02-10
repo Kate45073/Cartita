@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta Secreta</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(194,197,197);
+      overflow-x: hidden;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      animation: fall linear forwards;
+      color: rgba(255,0,0,0.6);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .key {
+      background: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .input-display {
+      font-size: 24px;
+      margin-top: 20px;
+      letter-spacing: 8px;
+    }
+
+    /* IMAGEN DEL INICIO (MISMO MARGEN QUE LA ORIGINAL) */
+    .password-img {
+  width: 300px;
+  max-height: 220px;   /* 🔥 ESTO es lo que la hace más chica */
+  object-fit: cover;  /* recorta sin deformar */
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+}
+
+  .mi-foto {
+  width: 100%;
+  max-width: 320px;
+  max-height: 360px;   /* 👈 ESTO es la clave */
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+  display: block;
+  margin: 0 auto 15px;
+}
+
+    .notepad {
+      background: #f9f9f9;
+      border: 3px solid black;
+      padding: 20px;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90%;
+      text-align: left;
+      font-family: 'Comic Sans MS', cursive;
+      box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
+    }
+
+    .notepad img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    .back-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: white;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="hearts"></div>
+
+<!-- 🔐 PANTALLA DE CONTRASEÑA -->
+<div id="passwordScreen" class="screen active">
+  <img
+    src="https://i.pinimg.com/736x/85/a5/5b/85a55bf8d1eb5f18027628c2d3be6df3.jpg"
+    class="password-img"
+    alt="Imagen inicio"
+  >
+
+  <h2>🔒 Ingresa la contraseña</h2>
+  <div id="inputDisplay" class="input-display">••••</div>
+
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <button class="key" onclick="checkPassword()">✔</button>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <button class="key" onclick="deleteLast()">⌫</button>
+  </div>
+</div>
+
+<!-- 💌 CARTA -->
+<div id="notepadScreen" class="screen">
+  <div class="notepad">
+    <h3>📅 10 Febrero 2026</h3>
+    <h4>💌 Mi Querido Furrito Meow </h4>
+
+   <p>Meow</p>
+<p>
+  Feliz Cumpleaños Mi amor UwU 💕 </p>
+  <p>
+  Quiero que sepas que eres una persona muy especial para mí y aunque a veces no lo demuestre mucho
+  o esté molesta contigo, eso nunca va a cambiar.
+</p>
+
+<p>
+  Siempre serás mi lindo perrito, digo furrito, y solo mío, Meow 💕
+</p>
+
+<p>
+  Eres mi persona favorita, a la que quiero musho musho musho, y por eso quiero estar contigo
+  todo el tiempo que se pueda.
+</p>
+
+<p>
+  Eres el furrito de mis sueños, eres perfecto para mí, eres todo lo que había deseado y mucho más.
+</p>
+
+<p>
+  Estoy muy enamorada de ti y muy orgullosa del buen perrito que eres, mi amor.
+  Buen chico UwU 🐾
+</p>
+
+<p>
+  Algún día podré decirte todo esto en persona, darte muchos mimitos, regalitos,
+  besitos y toda la paranoia (espero que entiendas la referencia 😼).
+</p>
+
+<p>
+  Gracias por llegar a mi vida y hacerla más bonita 💕  
+  Te amo más de lo que piensas.  
+  Meow 💖
+</p>
+
+    <button class="back-btn" onclick="irAPaginaExtra()">✨ Extra</button>
+    <button class="back-btn" onclick="goBack()">🔙 Inicio</button>
+  </div>
+</div>
+
+<!-- 🌸 PÁGINA EXTRA CON IMAGEN -->
+<div id="extraScreen" class="screen">
+  <div class="notepad">
+    <img src="foto.jpg" class="mi-foto" alt="Mi foto">
+    <p>
+      Te amo profundamente meow 💖
+    </p>
+
+    <button class="back-btn" onclick="volverACarta()">🔙 Volver</button>
+  </div>
+</div>
+
+<script>
+  let heartsInterval = null;
+  const correctPassword = '2803';
+  let input = '';
+
+  function crearCorazones() {
+    if (heartsInterval) return;
+    const container = document.querySelector('.hearts');
+
+    heartsInterval = setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      container.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }, 500);
+  }
+
+  function detenerCorazones() {
+    clearInterval(heartsInterval);
+    heartsInterval = null;
+    document.querySelector('.hearts').innerHTML = '';
+  }
+
+  function enterDigit(d) {
+    if (input.length < 4) {
+      input += d;
+      updateDisplay();
+    }
+  }
+
+  function deleteLast() {
+    input = input.slice(0, -1);
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    document.getElementById('inputDisplay').textContent =
+      input.padEnd(4, '•');
+  }
+
+  function checkPassword() {
+    if (input === correctPassword) {
+      document.getElementById('passwordScreen').classList.remove('active');
+      document.getElementById('notepadScreen').classList.add('active');
+      crearCorazones();
+    } else {
+      alert('Contraseña incorrecta');
+      input = '';
+      updateDisplay();
+    }
+  }
+
+  function goBack() {
+    document.getElementById('notepadScreen').classList.remove('active');
+    document.getElementById('passwordScreen').classList.add('active');
+    detenerCorazones();
+    input = '';
+    updateDisplay();
+  }
+
+  function irAPaginaExtra() {
+    document.getElementById('notepadScreen').classList.remove('active');
+    document.getElementById('extraScreen').classList.add('active');
+  }
+
+  function volverACarta() {
+    document.getElementById('extraScreen').classList.remove('active');
+    document.getElementById('notepadScreen').classList.add('active');
+  }
+</script>
+
+</body>
+</html>
